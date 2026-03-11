@@ -1,0 +1,40 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+.eggs/
+*.egg
+
+# Virtual environments
+backend/.venv/
+.venv/
+venv/
+env/
+
+# Node.js
+frontend/node_modules/
+node_modules/
+
+# Build output
+frontend/dist/
+frontend/.vite/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/settings.json
+.vscode/launch.json
+*.swp
+*.swo
