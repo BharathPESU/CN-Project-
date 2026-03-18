@@ -1,0 +1,8 @@
+{
+  "scripts": {
+    "ssl:cert": "./generate_ssl_cert.sh"
+  },
+  "dependencies": {
+    "node": "^25.8.1"
+  }
+}
