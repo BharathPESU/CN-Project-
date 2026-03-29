@@ -384,7 +384,10 @@ def scan_ports(
 def _print_results(results: List[Dict[str, object]]) -> None:
     """Pretty-print scan results to stdout, including service names and banners."""
     open_ports = [r for r in results if r["status"] == "open"]
+<<<<<<< HEAD
     closed_ports = [r for r in results if r["status"] == "closed"]
+=======
+>>>>>>> Bharath.2004
 
     print(f"\n{'Port':<10} {'Status':<10} {'Service':<25} Banner")
     print("-" * 80)
@@ -406,12 +409,16 @@ def _print_results(results: List[Dict[str, object]]) -> None:
     print("-" * 80)
     print(f"Total scanned : {len(results)}")
     print(f"Open ports    : {len(open_ports)}\n")
+<<<<<<< HEAD
     print(f"Closed ports  : {len(closed_ports)}\n")
+=======
+>>>>>>> Bharath.2004
 
 
 if __name__ == "__main__":
     import sys
 
+<<<<<<< HEAD
     try:
         if len(sys.argv) == 1:
             _target = input("Enter target IP/hostname: ").strip()
@@ -428,6 +435,16 @@ if __name__ == "__main__":
         print("Error: Start/end ports must be valid numbers.")
         sys.exit(1)
 
+=======
+    if len(sys.argv) != 4:
+        print("Usage: python port_scanner.py <target> <start_port> <end_port>")
+        sys.exit(1)
+
+    _target = sys.argv[1]
+    _start = int(sys.argv[2])
+    _end = int(sys.argv[3])
+
+>>>>>>> Bharath.2004
     print(f"Scanning {_target}  ports {_start}–{_end} …")
     try:
         _results = scan_ports(_target, _start, _end)
