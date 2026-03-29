@@ -6,6 +6,9 @@ class ScanRequest(BaseModel):
     target: str = Field(..., description="IP address or domain name to scan")
     start_port: int = Field(..., ge=1, le=65535, description="Starting port number (1-65535)")
     end_port: int = Field(..., ge=1, le=65535, description="Ending port number (1-65535)")
+    use_tls_server: bool = Field(False, description="Use remote TLS scan server")
+    tls_server_host: Optional[str] = Field(None, description="TLS scan server host or IP")
+    tls_server_port: Optional[int] = Field(None, ge=1, le=65535, description="TLS scan server port")
 
     @field_validator("end_port")
     @classmethod

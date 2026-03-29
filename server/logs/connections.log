@@ -1,0 +1,8 @@
+2026-03-27 19:16:22 | INFO | Generating self-signed TLS certificate at /home/bharath/Desktop/projects/project_cn/CN-Project--Bharath.2004/server/certs
+2026-03-27 19:16:22 | INFO | Generated self-signed TLS certificate and key
+2026-03-27 19:16:22 | INFO | TLS Port Status Server started at 127.0.0.1:9443
+2026-03-27 19:16:22 | INFO | Connection logs file: /home/bharath/Desktop/projects/project_cn/CN-Project--Bharath.2004/server/logs/connections.log
+2026-03-27 19:16:35 | INFO | [55babac2] connect client=127.0.0.1:49778 tls=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384
+2026-03-27 19:16:35 | INFO | [55babac2] request client=127.0.0.1:49778 target=127.0.0.1 range=1-100
+2026-03-27 19:16:35 | INFO | [55babac2] response client=127.0.0.1:49778 open_ports=2 scanned=100 duration=0.0206s
+2026-03-27 19:16:35 | INFO | [55babac2] disconnect client=127.0.0.1:49778

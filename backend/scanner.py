@@ -2,6 +2,7 @@ import socket
 import concurrent.futures
 import time
 from typing import List, Tuple
+from urllib.parse import urlparse
 
 from models import PortResult
 
@@ -13,13 +14,40 @@ BANNER_TIMEOUT = 2.0
 MAX_WORKERS = 200
 
 
+def normalize_target(target: str) -> str:
+        """
+        Normalize user-entered target values into a hostname/IP string.
+
+        Accepts values like:
+            - 192.168.1.10
+            - laptop.local
+            - 192.168.1.10:22
+            - http://192.168.1.10:8000
+
+        Returns:
+            Hostname/IP only (without scheme, path, or port).
+        """
+        cleaned = (target or "").strip()
+        if not cleaned:
+                raise ValueError("Target cannot be empty.")
+
+        parsed = urlparse(cleaned if "://" in cleaned else f"//{cleaned}")
+        host = parsed.hostname or cleaned
+
+        if not host:
+                raise ValueError(f"Invalid target '{target}'.")
+
+        return host.strip()
+
+
 def resolve_target(target: str) -> str:
     """
     Resolve a hostname or IP string to a dotted-decimal IP address.
     Raises ValueError if the target cannot be resolved.
     """
+    normalized_target = normalize_target(target)
     try:
-        return socket.gethostbyname(target)
+        return socket.gethostbyname(normalized_target)
     except socket.gaierror as exc:
         raise ValueError(f"Cannot resolve target '{target}': {exc}") from exc
 

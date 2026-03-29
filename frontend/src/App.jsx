@@ -20,20 +20,25 @@ export default function App() {
    * Called by ScanForm when the user submits valid input.
    * Sends a GET request to /scan and stores the results.
    */
-  async function handleScan({ target, startPort, endPort }) {
+  async function handleScan({ target, startPort, endPort, useTlsServer, tlsHost, tlsPort }) {
     setLoading(true);
     setError(null);
     setResults([]);
     setScanMeta(null);
 
     try {
-      const { data } = await axios.get(`${API_BASE}/scan`, {
-        params: {
-          target,
-          start_port: startPort,
-          end_port:   endPort,
-        },
-      });
+      const params = {
+        target,
+        start_port: startPort,
+        end_port: endPort,
+      };
+      if (useTlsServer) {
+        params.use_tls_server = true;
+        params.tls_server_host = tlsHost;
+        params.tls_server_port = tlsPort;
+      }
+
+      const { data } = await axios.get(`${API_BASE}/scan`, { params });
 
       setResults(data.results ?? []);
       setScanMeta({

@@ -1,9 +1,12 @@
+import os
+
 from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import ValidationError
 
 from models import ScanRequest, ScanResponse, ErrorResponse
 from scanner import scan_ports
+from tls_client import request_scan_tls
 
 app = FastAPI(
     title="TCP Port Scanner API",
@@ -45,7 +48,14 @@ async def scan_post(request: ScanRequest):
 
     Returns per-port status, service name, and any captured banner.
     """
-    return await _run_scan(request.target, request.start_port, request.end_port)
+    return await _run_scan(
+        request.target,
+        request.start_port,
+        request.end_port,
+        request.use_tls_server,
+        request.tls_server_host,
+        request.tls_server_port,
+    )
 
 
 # ── GET /scan  (query parameters) ────────────────────────────────────────────
@@ -60,6 +70,9 @@ async def scan_get(
     target: str = Query(..., description="IP address or hostname to scan"),
     start_port: int = Query(..., ge=1, le=65535, description="First port in range"),
     end_port: int = Query(..., ge=1, le=65535, description="Last port in range"),
+    use_tls_server: bool = Query(False, description="Use remote TLS scan server"),
+    tls_server_host: str | None = Query(None, description="TLS scan server host or IP"),
+    tls_server_port: int | None = Query(None, ge=1, le=65535, description="TLS scan server port"),
 ):
     """
     Same as **POST /scan** but accepts parameters as URL query strings.
@@ -77,20 +90,59 @@ async def scan_get(
             status_code=400,
             detail="Port range cannot exceed 10 000 ports per request.",
         )
-    return await _run_scan(target, start_port, end_port)
+    return await _run_scan(
+        target,
+        start_port,
+        end_port,
+        use_tls_server,
+        tls_server_host,
+        tls_server_port,
+    )
 
 
 # ── Shared scan logic ─────────────────────────────────────────────────────────
-async def _run_scan(target: str, start_port: int, end_port: int) -> ScanResponse:
+async def _run_scan(
+    target: str,
+    start_port: int,
+    end_port: int,
+    use_tls_server: bool,
+    tls_server_host: str | None,
+    tls_server_port: int | None,
+) -> ScanResponse:
     """Delegate to the scanner module and package the result."""
     try:
-        resolved_ip, results, duration = scan_ports(target, start_port, end_port)
+        if use_tls_server:
+            server_host = tls_server_host or os.getenv("TLS_SERVER_HOST")
+            server_port = tls_server_port or int(os.getenv("TLS_SERVER_PORT", "0"))
+            if not server_host or not server_port:
+                raise ValueError("TLS server host/port is required when use_tls_server is true.")
+
+            verify = os.getenv("TLS_SERVER_VERIFY", "false").lower() in {"1", "true", "yes"}
+            ca_file = os.getenv("TLS_SERVER_CA_FILE")
+            response = request_scan_tls(
+                server_host=server_host,
+                server_port=server_port,
+                target=target,
+                start_port=start_port,
+                end_port=end_port,
+                verify=verify,
+                ca_file=ca_file,
+            )
+
+            resolved_ip = response.get("resolved_ip", "")
+            results = response.get("results", [])
+            duration = response.get("scan_duration_seconds", 0.0)
+        else:
+            resolved_ip, results, duration = scan_ports(target, start_port, end_port)
     except ValueError as exc:
         # Covers unresolvable hostnames and other input errors from scanner.py
         raise HTTPException(status_code=400, detail=str(exc)) from exc
 
-    open_count = sum(1 for r in results if r.status == "open")
-    closed_count = sum(1 for r in results if r.status == "closed")
+    def get_status(item):
+        return item.status if hasattr(item, "status") else item.get("status")
+
+    open_count = sum(1 for r in results if get_status(r) == "open")
+    closed_count = sum(1 for r in results if get_status(r) == "closed")
 
     print(
         f"[SCAN] target={target} resolved_ip={resolved_ip} range={start_port}-{end_port} "

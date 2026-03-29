@@ -76,6 +76,8 @@ body {
 
 .form-group { display: flex; flex-direction: column; gap: .4rem; }
 .form-label { font-size: .8rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: .06em; }
+.form-label input[type="checkbox"] { margin-right: .55rem; }
+.form-label-inline { text-transform: none; letter-spacing: 0; font-size: .85rem; color: var(--text); }
 
 .form-row {
   display: grid;

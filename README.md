@@ -59,6 +59,9 @@ Scan any IP address or hostname, detect open ports, identify running services, a
 
 ```
 CN/
+├── server/
+│   ├── ssl_port_status_server.py
+│   └── README.md
 ├── backend/
 │   ├── main.py
 │   ├── models.py
@@ -78,6 +81,35 @@ CN/
             ├── ResultsTable.jsx
             ├── StatsPanel.jsx
             └── LoadingSpinner.jsx
+```
+
+---
+
+## Standalone SSL Server for Multi-Client Port Checks
+
+The `server/ssl_port_status_server.py` script is a separate TLS socket server designed for deployment on a server laptop.
+
+- Accepts multiple concurrent client connections over SSL/TLS
+- Receives JSON port-range requests
+- Scans and returns number of open ports on the target
+- Logs connect/request/response/disconnect events to `server/logs/connections.log`
+
+Run from project root:
+
+```bash
+python3 server/ssl_port_status_server.py
+```
+
+See `server/README.md` for request/response format and test command.
+
+### Optional: Scan via TLS server (remote mode)
+
+If you want the **server laptop** to handle scans (and log TLS handshakes), enable the TLS server toggle in the UI and enter the server laptop IP/port. The backend will send the scan request over TLS to the server and return the results to the UI.
+
+You can also call the API directly:
+
+```
+/scan?target=192.168.1.20&start_port=1&end_port=1024&use_tls_server=true&tls_server_host=192.168.1.50&tls_server_port=9443
 ```
 
 ---

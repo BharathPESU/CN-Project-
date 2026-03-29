@@ -14,6 +14,9 @@ export default function ScanForm({ onScan, disabled }) {
   const [startPort, setStartPort] = useState(1);
   const [endPort,   setEndPort]   = useState(1024);
   const [formError, setFormError] = useState(null);
+  const [useTlsServer, setUseTlsServer] = useState(false);
+  const [tlsHost, setTlsHost] = useState("");
+  const [tlsPort, setTlsPort] = useState(9443);
 
   function validate() {
     if (!target.trim()) return "Please enter a target IP address or hostname.";
@@ -27,6 +30,12 @@ export default function ScanForm({ onScan, disabled }) {
       return "End port must be greater than or equal to start port.";
     if (e - s > 9999)
       return "Port range cannot exceed 10 000 ports per scan.";
+    if (useTlsServer) {
+      if (!tlsHost.trim()) return "Please enter the TLS server host or IP.";
+      const p = Number(tlsPort);
+      if (!Number.isInteger(p) || p < 1 || p > 65535)
+        return "TLS server port must be an integer between 1 and 65535.";
+    }
     return null;
   }
 
@@ -35,7 +44,14 @@ export default function ScanForm({ onScan, disabled }) {
     const err = validate();
     if (err) { setFormError(err); return; }
     setFormError(null);
-    onScan({ target: target.trim(), startPort: Number(startPort), endPort: Number(endPort) });
+    onScan({
+      target: target.trim(),
+      startPort: Number(startPort),
+      endPort: Number(endPort),
+      useTlsServer,
+      tlsHost: tlsHost.trim(),
+      tlsPort: Number(tlsPort),
+    });
   }
 
   return (
@@ -51,7 +67,7 @@ export default function ScanForm({ onScan, disabled }) {
           id="target"
           className="form-input"
           type="text"
-          placeholder="e.g. 192.168.1.1 or example.com"
+          placeholder="e.g. 192.168.1.25 (same Wi‑Fi) or laptop.local"
           value={target}
           onChange={(e) => setTarget(e.target.value)}
           disabled={disabled}
@@ -94,6 +110,57 @@ export default function ScanForm({ onScan, disabled }) {
           />
         </div>
       </div>
+
+      {/* TLS server toggle */}
+      <div className="form-group">
+        <label className="form-label" htmlFor="useTlsServer">
+          <input
+            id="useTlsServer"
+            type="checkbox"
+            checked={useTlsServer}
+            onChange={(e) => setUseTlsServer(e.target.checked)}
+            disabled={disabled}
+          />
+          <span className="form-label-inline">Use TLS scan server (remote)</span>
+        </label>
+      </div>
+
+      {useTlsServer && (
+        <div className="form-row">
+          <div className="form-group">
+            <label className="form-label" htmlFor="tlsHost">
+              TLS Server Host
+            </label>
+            <input
+              id="tlsHost"
+              className="form-input"
+              type="text"
+              placeholder="e.g. 192.168.1.20"
+              value={tlsHost}
+              onChange={(e) => setTlsHost(e.target.value)}
+              disabled={disabled}
+              autoComplete="off"
+              spellCheck={false}
+            />
+          </div>
+
+          <div className="form-group">
+            <label className="form-label" htmlFor="tlsPort">
+              TLS Server Port
+            </label>
+            <input
+              id="tlsPort"
+              className="form-input"
+              type="number"
+              min={1}
+              max={65535}
+              value={tlsPort}
+              onChange={(e) => setTlsPort(e.target.value)}
+              disabled={disabled}
+            />
+          </div>
+        </div>
+      )}
 
       {/* Inline form validation error */}
       {formError && (

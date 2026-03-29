@@ -97,11 +97,26 @@ success "Python dependencies installed"
 # ── 4. Frontend – install Node packages ───────────────────────────────────────
 echo ""
 info "Installing Node.js dependencies…"
+NEEDS_NPM_INSTALL=0
+
 if [ ! -d "$FRONTEND_DIR/node_modules" ]; then
-  npm install --prefix "$FRONTEND_DIR" --silent
+  NEEDS_NPM_INSTALL=1
+  warn "node_modules not found – installing dependencies"
+elif [ ! -f "$FRONTEND_DIR/node_modules/.bin/vite" ]; then
+  NEEDS_NPM_INSTALL=1
+  warn "node_modules is incomplete – reinstalling dependencies"
+fi
+
+if [ "$NEEDS_NPM_INSTALL" -eq 1 ]; then
+  rm -rf "$FRONTEND_DIR/node_modules"
+  if [ -f "$FRONTEND_DIR/package-lock.json" ]; then
+    npm ci --prefix "$FRONTEND_DIR" --silent
+  else
+    npm install --prefix "$FRONTEND_DIR" --silent
+  fi
   success "Node.js dependencies installed"
 else
-  success "node_modules already exists – skipping npm install"
+  success "node_modules looks healthy – skipping npm install"
 fi
 
 echo ""
