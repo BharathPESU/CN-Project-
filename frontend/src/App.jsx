@@ -1,60 +1,155 @@
-import { useState } from "react";
-import axios from "axios";
+import { useState, useRef } from "react";
 import ScanForm from "./components/ScanForm";
 import ResultsTable from "./components/ResultsTable";
 import LoadingSpinner from "./components/LoadingSpinner";
 import StatsPanel from "./components/StatsPanel";
+import PerformancePanel from "./components/PerformancePanel";
 
-// Base URL for the FastAPI backend.
-// In development Vite proxies /scan → http://localhost:8000/scan.
-// In production, set VITE_API_BASE in your environment.
 const API_BASE = import.meta.env.VITE_API_BASE ?? "";
 
 export default function App() {
-  const [scanMeta, setScanMeta]   = useState(null);   // scan summary info
-  const [results, setResults]     = useState([]);      // array of port result dicts
-  const [loading, setLoading]     = useState(false);
-  const [error, setError]         = useState(null);
+  const [scanMeta, setScanMeta] = useState(null);
+  const [results, setResults] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [scanHistory, setScanHistory] = useState([]);
+  const [batchThroughputs, setBatchThroughputs] = useState([]);
+  const [progress, setProgress] = useState(0);
+  const eventSourceRef = useRef(null);
 
-  /**
-   * Called by ScanForm when the user submits valid input.
-   * Sends a GET request to /scan and stores the results.
-   */
-  async function handleScan({ target, startPort, endPort, useTlsServer, tlsHost, tlsPort }) {
+  function handleScan({ target, startPort, endPort, useTlsServer, tlsHost, tlsPort }) {
+    if (eventSourceRef.current) {
+      eventSourceRef.current.close();
+    }
+
     setLoading(true);
     setError(null);
     setResults([]);
     setScanMeta(null);
+    setBatchThroughputs([]);
+    setProgress(0);
 
+    if (useTlsServer) {
+      handleTlsScan({ target, startPort, endPort, tlsHost, tlsPort });
+      return;
+    }
+
+    const params = new URLSearchParams({
+      target,
+      start_port: startPort,
+      end_port: endPort,
+      batch_size: 50,
+    });
+
+    const es = new EventSource(`${API_BASE}/scan/stream?${params}`);
+    eventSourceRef.current = es;
+
+    let allResults = [];
+    let scanInfo = {};
+
+    es.addEventListener("start", (e) => {
+      const data = JSON.parse(e.data);
+      scanInfo = {
+        target: data.target,
+        resolvedIp: data.resolved_ip,
+        totalPorts: data.total_ports,
+        startPort: data.start_port,
+        endPort: data.end_port,
+      };
+    });
+
+    es.addEventListener("batch", (e) => {
+      const data = JSON.parse(e.data);
+      allResults = [...allResults, ...data.results];
+      setResults([...allResults]);
+      setProgress(data.progress_percent);
+      setBatchThroughputs((prev) => [
+        ...prev,
+        {
+          batch: data.batch_number,
+          throughput: data.throughput,
+          duration: data.batch_duration,
+          portsScanned: data.ports_scanned,
+        },
+      ]);
+    });
+
+    es.addEventListener("complete", (e) => {
+      const data = JSON.parse(e.data);
+      es.close();
+      eventSourceRef.current = null;
+
+      const newScanMeta = {
+        target: scanInfo.target,
+        resolvedIp: scanInfo.resolvedIp,
+        openPorts: data.open_ports,
+        totalScanned: data.total_scanned,
+        durationSeconds: data.total_duration,
+        results: allResults,
+      };
+      setScanMeta(newScanMeta);
+      setResults(allResults);
+      setScanHistory((prev) => [...prev, newScanMeta]);
+      setProgress(100);
+      setLoading(false);
+    });
+
+    es.addEventListener("error", (e) => {
+      try {
+        const data = JSON.parse(e.data);
+        setError(data.detail || "Scan failed");
+      } catch {
+        setError("Connection to server lost");
+      }
+      es.close();
+      eventSourceRef.current = null;
+      setLoading(false);
+    });
+
+    es.onerror = () => {
+      if (es.readyState === EventSource.CLOSED) {
+        return;
+      }
+      setError("Connection to server lost");
+      es.close();
+      eventSourceRef.current = null;
+      setLoading(false);
+    };
+  }
+
+  async function handleTlsScan({ target, startPort, endPort, tlsHost, tlsPort }) {
     try {
       const params = {
         target,
         start_port: startPort,
         end_port: endPort,
+        use_tls_server: true,
+        tls_server_host: tlsHost,
+        tls_server_port: tlsPort,
       };
-      if (useTlsServer) {
-        params.use_tls_server = true;
-        params.tls_server_host = tlsHost;
-        params.tls_server_port = tlsPort;
+
+      const response = await fetch(
+        `${API_BASE}/scan?${new URLSearchParams(params)}`
+      );
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.detail || "Scan failed");
       }
 
-      const { data } = await axios.get(`${API_BASE}/scan`, { params });
-
       setResults(data.results ?? []);
-      setScanMeta({
-        target:          data.target,
-        resolvedIp:      data.resolved_ip,
-        openPorts:       data.open_ports,
-        totalScanned:    data.total_scanned,
+      const newScanMeta = {
+        target: data.target,
+        resolvedIp: data.resolved_ip,
+        openPorts: data.open_ports,
+        totalScanned: data.total_scanned,
         durationSeconds: data.scan_duration_seconds,
-      });
+        results: data.results ?? [],
+      };
+      setScanMeta(newScanMeta);
+      setScanHistory((prev) => [...prev, newScanMeta]);
     } catch (err) {
-      const detail =
-        err.response?.data?.detail ??
-        err.response?.data?.message ??
-        err.message ??
-        "An unexpected error occurred.";
-      setError(detail);
+      setError(err.message || "An unexpected error occurred.");
     } finally {
       setLoading(false);
     }
@@ -62,7 +157,6 @@ export default function App() {
 
   return (
     <div className="app-wrapper">
-      {/* ── Header ──────────────────────────────────────────────────── */}
       <header className="app-header">
         <span className="header-icon">🔍</span>
         <div>
@@ -73,11 +167,9 @@ export default function App() {
         </div>
       </header>
 
-      {/* ── Main content ─────────────────────────────────────────────── */}
       <main className="app-main">
         <ScanForm onScan={handleScan} disabled={loading} />
 
-        {/* Error banner */}
         {error && (
           <div className="alert alert-error" role="alert">
             <span className="alert-icon">⚠️</span>
@@ -85,20 +177,23 @@ export default function App() {
           </div>
         )}
 
-        {/* Loading */}
-        {loading && <LoadingSpinner />}
+        {loading && <LoadingSpinner progress={progress} />}
 
-        {/* Stats panel (replaces plain summary badges) */}
         {scanMeta && !loading && (
           <StatsPanel scanMeta={scanMeta} results={results} />
         )}
 
-        {/* Results table */}
-        {results.length > 0 && !loading && (
-          <ResultsTable results={results} />
+        {(batchThroughputs.length > 0 || scanHistory.length > 0) && (
+          <PerformancePanel
+            scanHistory={scanHistory}
+            currentScan={scanMeta}
+            batchThroughputs={batchThroughputs}
+            isScanning={loading}
+          />
         )}
 
-        {/* Empty state after a completed scan with zero results */}
+        {results.length > 0 && !loading && <ResultsTable results={results} />}
+
         {scanMeta && results.length === 0 && !loading && (
           <div className="empty-state">
             <span className="empty-icon">🔒</span>

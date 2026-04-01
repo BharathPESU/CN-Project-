@@ -1,11 +1,13 @@
 import os
+import json
 
 from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import StreamingResponse
 from pydantic import ValidationError
 
 from models import ScanRequest, ScanResponse, ErrorResponse
-from scanner import scan_ports
+from scanner import scan_ports, scan_ports_batched
 from tls_client import request_scan_tls
 
 app = FastAPI(
@@ -72,7 +74,9 @@ async def scan_get(
     end_port: int = Query(..., ge=1, le=65535, description="Last port in range"),
     use_tls_server: bool = Query(False, description="Use remote TLS scan server"),
     tls_server_host: str | None = Query(None, description="TLS scan server host or IP"),
-    tls_server_port: int | None = Query(None, ge=1, le=65535, description="TLS scan server port"),
+    tls_server_port: int | None = Query(
+        None, ge=1, le=65535, description="TLS scan server port"
+    ),
 ):
     """
     Same as **POST /scan** but accepts parameters as URL query strings.
@@ -85,11 +89,6 @@ async def scan_get(
             status_code=400,
             detail="end_port must be greater than or equal to start_port.",
         )
-    if (end_port - start_port) > 9999:
-        raise HTTPException(
-            status_code=400,
-            detail="Port range cannot exceed 10 000 ports per request.",
-        )
     return await _run_scan(
         target,
         start_port,
@@ -97,6 +96,57 @@ async def scan_get(
         use_tls_server,
         tls_server_host,
         tls_server_port,
+    )
+
+
+# ── GET /scan/stream  (SSE streaming) ─────────────────────────────────────────
+@app.get(
+    "/scan/stream",
+    summary="Stream scan progress via Server-Sent Events",
+    tags=["Scanner"],
+)
+async def scan_stream(
+    target: str = Query(..., description="IP address or hostname to scan"),
+    start_port: int = Query(..., ge=1, le=65535, description="First port in range"),
+    end_port: int = Query(..., ge=1, le=65535, description="Last port in range"),
+    batch_size: int = Query(50, ge=1, le=500, description="Ports per batch"),
+):
+    """
+    Stream scan results via Server-Sent Events (SSE).
+
+    Events:
+    - `start`: Scan initialized with target info
+    - `batch`: Batch completed with results and throughput
+    - `complete`: All batches done with final summary
+    - `error`: Error occurred during scan
+    """
+    if end_port < start_port:
+        raise HTTPException(
+            status_code=400,
+            detail="end_port must be greater than or equal to start_port.",
+        )
+
+    def event_generator():
+        try:
+            for event in scan_ports_batched(target, start_port, end_port, batch_size):
+                event_type = event.get("type", "message")
+                data = json.dumps(event)
+                yield f"event: {event_type}\ndata: {data}\n\n"
+        except ValueError as exc:
+            error_data = json.dumps({"type": "error", "detail": str(exc)})
+            yield f"event: error\ndata: {error_data}\n\n"
+        except Exception as exc:
+            error_data = json.dumps({"type": "error", "detail": f"Scan failed: {exc}"})
+            yield f"event: error\ndata: {error_data}\n\n"
+
+    return StreamingResponse(
+        event_generator(),
+        media_type="text/event-stream",
+        headers={
+            "Cache-Control": "no-cache",
+            "Connection": "keep-alive",
+            "X-Accel-Buffering": "no",
+        },
     )
 
 
@@ -115,9 +165,15 @@ async def _run_scan(
             server_host = tls_server_host or os.getenv("TLS_SERVER_HOST")
             server_port = tls_server_port or int(os.getenv("TLS_SERVER_PORT", "0"))
             if not server_host or not server_port:
-                raise ValueError("TLS server host/port is required when use_tls_server is true.")
+                raise ValueError(
+                    "TLS server host/port is required when use_tls_server is true."
+                )
 
-            verify = os.getenv("TLS_SERVER_VERIFY", "false").lower() in {"1", "true", "yes"}
+            verify = os.getenv("TLS_SERVER_VERIFY", "false").lower() in {
+                "1",
+                "true",
+                "yes",
+            }
             ca_file = os.getenv("TLS_SERVER_CA_FILE")
             response = request_scan_tls(
                 server_host=server_host,

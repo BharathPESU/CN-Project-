@@ -68,4 +68,25 @@ Each TLS connection writes a log line with handshake info, for example:
 ```
 2026-03-29 10:25:32 | INFO | [a1b2c3d4] connect client=192.168.1.39:53588 tls=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 session_reused=False client_cert=absent
 ```
+
+## Logs UI (HTML + JavaScript)
+
+The UI reads `server/logs/connections.log` and renders a dashboard in the browser.
+
+1. Start the TLS server (same as above).
+2. From the `server` folder, run a simple static file server:
+
+```bash
+python3 -m http.server 8080
+```
+
+3. Open the UI in your browser:
+
+```
+http://<server-laptop-ip>:8080/logs_ui.html
+```
+
+Notes:
+- Closed ports are derived from total scanned minus open ports.
+- Timeout counts are not logged by the server and are shown as "n/a" in the UI.
 ```

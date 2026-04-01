@@ -191,8 +191,26 @@ body {
   align-items: center;
   gap: 1rem;
   padding: 1.5rem 1.75rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
 }
+.loading-content { flex: 1; display: flex; flex-direction: column; gap: .5rem; }
 .loading-text { color: var(--text-muted); font-size: .95rem; }
+
+.progress-bar {
+  width: 100%;
+  height: 8px;
+  background: var(--surface-2);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), #6366f1);
+  border-radius: 4px;
+  transition: width .3s ease-out;
+}
 
 /* large spinner */
 .spinner {
@@ -496,3 +514,138 @@ body {
 .legend-dot--open   { background: rgba(34,197,94,.9); }
 .legend-dot--closed { background: rgba(99,112,145,.8); }
 .legend-text b { color: var(--text); }
+
+/* ── Performance Panel ────────────────────────────────────────────────────── */
+.performance-panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.75rem;
+  box-shadow: var(--shadow);
+}
+
+.performance-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin-bottom: 1.25rem;
+  color: var(--text);
+}
+
+.scanning-indicator {
+  color: var(--accent);
+  font-weight: 400;
+  font-size: .9rem;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.performance-body {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* ── Metric cards grid ────────────────────────────────────────────────────── */
+.performance-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: .85rem;
+}
+
+.metric-card {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  padding: .9rem 1rem;
+  display: flex;
+  align-items: flex-start;
+  gap: .75rem;
+  transition: border-color .2s, transform .15s;
+}
+.metric-card:hover { transform: translateY(-2px); }
+
+.metric-card--blue   { border-top: 3px solid var(--accent); }
+.metric-card--green  { border-top: 3px solid var(--green); }
+.metric-card--red    { border-top: 3px solid var(--red); }
+.metric-card--purple { border-top: 3px solid #a78bfa; }
+.metric-card--yellow { border-top: 3px solid #facc15; }
+
+.metric-card-icon { font-size: 1.3rem; line-height: 1; margin-top: .1rem; flex-shrink: 0; }
+
+.metric-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: .15rem;
+  min-width: 0;
+}
+
+.metric-card-label {
+  font-size: .72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .07em;
+  color: var(--text-muted);
+}
+
+.metric-card-value {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.metric-card--green  .metric-card-value { color: var(--green); }
+.metric-card--red    .metric-card-value { color: var(--red); }
+.metric-card--yellow .metric-card-value { color: #facc15; }
+
+.metric-card-sub {
+  font-size: .75rem;
+  color: var(--text-muted);
+}
+
+/* ── Performance charts ───────────────────────────────────────────────────── */
+.performance-charts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+}
+
+@media (max-width: 780px) {
+  .performance-charts { grid-template-columns: 1fr; }
+}
+
+.perf-chart-container {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: .75rem;
+}
+
+.perf-chart-title {
+  font-size: .85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .07em;
+  color: var(--text-muted);
+}
+
+.perf-chart-wrapper {
+  height: 200px;
+  position: relative;
+}
+
+.perf-chart-empty {
+  color: var(--text-muted);
+  font-size: .85rem;
+  text-align: center;
+  padding: 3rem 1rem;
+}

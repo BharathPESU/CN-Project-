@@ -6,3 +6,170 @@
 2026-03-27 19:16:35 | INFO | [55babac2] request client=127.0.0.1:49778 target=127.0.0.1 range=1-100
 2026-03-27 19:16:35 | INFO | [55babac2] response client=127.0.0.1:49778 open_ports=2 scanned=100 duration=0.0206s
 2026-03-27 19:16:35 | INFO | [55babac2] disconnect client=127.0.0.1:49778
+2026-04-01 15:44:38 | INFO | TLS certificates found: cert=/home/bharath/Desktop/projects/project_cn/CN-Project--Bharath.2004/server/certs/server-cert.pem key=/home/bharath/Desktop/projects/project_cn/CN-Project--Bharath.2004/server/certs/server-key.pem
+2026-04-01 15:44:38 | INFO | TLS Port Status Server started at 0.0.0.0:9443
+2026-04-01 15:44:38 | INFO | Connection logs file: /home/bharath/Desktop/projects/project_cn/CN-Project--Bharath.2004/server/logs/connections.log
+2026-04-01 15:46:48 | INFO | Received signal=2. Initiating shutdown...
+2026-04-01 15:46:48 | INFO | Server stopped.
+2026-04-01 15:46:51 | INFO | TLS certificates found: cert=/home/bharath/Desktop/projects/project_cn/CN-Project--Bharath.2004/server/certs/server-cert.pem key=/home/bharath/Desktop/projects/project_cn/CN-Project--Bharath.2004/server/certs/server-key.pem
+2026-04-01 15:46:51 | INFO | TLS Port Status Server started at 0.0.0.0:9443
+2026-04-01 15:46:51 | INFO | Connection logs file: /home/bharath/Desktop/projects/project_cn/CN-Project--Bharath.2004/server/logs/connections.log
+2026-04-01 15:46:51 | INFO | Logs UI: http://127.0.0.1:8080/logs_ui.html (start with: python3 -m http.server 8080)
+2026-04-01 15:48:18 | INFO | Received signal=2. Initiating shutdown...
+2026-04-01 15:48:18 | INFO | Server stopped.
+2026-04-01 17:19:19 | INFO | TLS certificates found: cert=/home/bharath/Desktop/projects/project_cn/CN-Project--Bharath.2004/server/certs/server-cert.pem key=/home/bharath/Desktop/projects/project_cn/CN-Project--Bharath.2004/server/certs/server-key.pem
+2026-04-01 17:19:19 | INFO | TLS Port Status Server started at 0.0.0.0:9443
+2026-04-01 17:19:19 | INFO | Connection logs file: /home/bharath/Desktop/projects/project_cn/CN-Project--Bharath.2004/server/logs/connections.log
+2026-04-01 17:19:19 | INFO | Logs UI: http://127.0.0.1:8080/logs_ui.html (start with: python3 -m http.server 8080)
+2026-04-01 17:56:31 | INFO | [80457cdf] connect client=192.168.1.40:37778 tls=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 session_reused=False client_cert=absent
+2026-04-01 17:56:31 | INFO | [80457cdf] request client=192.168.1.40:37778 target=192.168.1.40 range=1-1024
+2026-04-01 17:56:31 | INFO | [80457cdf] response client=192.168.1.40:37778 open_ports=2 scanned=1024 duration=0.0973s
+2026-04-01 17:56:31 | INFO | [80457cdf] disconnect client=192.168.1.40:37778
+2026-04-01 18:31:53 | INFO | TLS certificates found: cert=/home/bharath/Desktop/projects/project_cn/CN-Project--Bharath.2004/server/certs/server-cert.pem key=/home/bharath/Desktop/projects/project_cn/CN-Project--Bharath.2004/server/certs/server-key.pem
+2026-04-01 18:31:53 | INFO | TLS Port Status Server started at 0.0.0.0:9443
+2026-04-01 18:31:53 | INFO | Logs UI server started at http://127.0.0.1:8080
+2026-04-01 18:31:53 | INFO | Connection logs file: /home/bharath/Desktop/projects/project_cn/CN-Project--Bharath.2004/server/logs/connections.log
+2026-04-01 18:33:20 | INFO | [f352fdeb] connect client=192.168.1.40:44364 tls=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 session_reused=False client_cert=absent
+2026-04-01 18:33:20 | INFO | [f352fdeb] request client=192.168.1.40:44364 target=192.168.1.40 range=1-1024
+2026-04-01 18:33:20 | INFO | [f352fdeb] response client=192.168.1.40:44364 open_ports=2 scanned=1024 duration=0.1093s
+2026-04-01 18:33:20 | INFO | [f352fdeb] disconnect client=192.168.1.40:44364
+2026-04-01 18:34:42 | INFO | [f6af0150] connect client=192.168.1.40:58010 tls=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 session_reused=False client_cert=absent
+2026-04-01 18:34:42 | INFO | [f6af0150] request client=192.168.1.40:58010 target=192.168.1.40 range=1-1024
+2026-04-01 18:34:42 | INFO | [f6af0150] response client=192.168.1.40:58010 open_ports=2 scanned=1024 duration=0.1057s
+2026-04-01 18:34:42 | INFO | [f6af0150] disconnect client=192.168.1.40:58010
+2026-04-01 18:35:44 | INFO | [a1dd4192] connect client=192.168.1.40:56828 tls=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 session_reused=False client_cert=absent
+2026-04-01 18:35:44 | INFO | [a1dd4192] request client=192.168.1.40:56828 target=192.168.1.40 range=1-1024
+2026-04-01 18:35:44 | INFO | [a1dd4192] response client=192.168.1.40:56828 open_ports=2 scanned=1024 duration=0.0971s
+2026-04-01 18:35:44 | INFO | [a1dd4192] disconnect client=192.168.1.40:56828
+2026-04-01 18:37:23 | INFO | Received signal=2. Initiating shutdown...
+2026-04-01 18:37:23 | INFO | Server stopped.
+2026-04-01 18:38:56 | INFO | TLS certificates found: cert=/home/bharath/Desktop/projects/project_cn/CN-Project--Bharath.2004/server/certs/server-cert.pem key=/home/bharath/Desktop/projects/project_cn/CN-Project--Bharath.2004/server/certs/server-key.pem
+2026-04-01 18:38:56 | INFO | TLS Port Status Server started at 0.0.0.0:9443
+2026-04-01 18:38:56 | INFO | Logs UI server started at http://127.0.0.1:8080
+2026-04-01 18:38:56 | INFO | Connection logs file: /home/bharath/Desktop/projects/project_cn/CN-Project--Bharath.2004/server/logs/connections.log
+2026-04-01 18:48:51 | INFO | Received signal=2. Initiating shutdown...
+2026-04-01 18:48:51 | INFO | Server stopped.
+2026-04-01 18:48:55 | INFO | TLS certificates found: cert=/home/bharath/Desktop/projects/project_cn/CN-Project--Bharath.2004/server/certs/server-cert.pem key=/home/bharath/Desktop/projects/project_cn/CN-Project--Bharath.2004/server/certs/server-key.pem
+2026-04-01 18:48:55 | INFO | TLS Port Status Server started at 0.0.0.0:9443
+2026-04-01 18:48:55 | INFO | Connection logs file: /home/bharath/Desktop/projects/project_cn/CN-Project--Bharath.2004/server/logs/connections.log
+2026-04-01 18:48:55 | INFO | Logs UI server started at http://127.0.0.1:8080
+2026-04-01 18:49:11 | INFO | [d671826e] connect client=192.168.1.40:57900 tls=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 session_reused=False client_cert=absent
+2026-04-01 18:49:11 | INFO | [d671826e] request client=192.168.1.40:57900 target=192.168.1.40 range=1-1024
+2026-04-01 18:49:12 | ERROR | [d671826e] request_failed client=192.168.1.40:57900 error='utf-8' codec can't decode byte 0x6e in position 56: invalid start byte
+Traceback (most recent call last):
+  File "/home/bharath/Desktop/projects/project_cn/CN-Project--Bharath.2004/server/ssl_port_status_server.py", line 349, in handle
+    result = scan_port_range(
+             ^^^^^^^^^^^^^^^^
+  File "/home/bharath/Desktop/projects/project_cn/CN-Project--Bharath.2004/server/ssl_port_status_server.py", line 215, in scan_port_range
+    future.result() for future in concurrent.futures.as_completed(futures)
+    ^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+  File "/usr/lib/python3.12/concurrent/futures/thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/bharath/Desktop/projects/project_cn/CN-Project--Bharath.2004/server/ssl_port_status_server.py", line 192, in scan_single_port
+    service = get_service_name(port)
+              ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/bharath/Desktop/projects/project_cn/CN-Project--Bharath.2004/server/ssl_port_status_server.py", line 236, in get_service_name
+    return socket.getservbyport(port, "tcp")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0x6e in position 56: invalid start byte
+2026-04-01 18:49:12 | INFO | [d671826e] disconnect client=192.168.1.40:57900
+2026-04-01 18:49:19 | INFO | [de19249d] connect client=192.168.1.40:39214 tls=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 session_reused=False client_cert=absent
+2026-04-01 18:49:19 | INFO | [de19249d] request client=192.168.1.40:39214 target=192.168.1.40 range=1-1024
+2026-04-01 18:49:19 | ERROR | [de19249d] request_failed client=192.168.1.40:39214 error='utf-8' codec can't decode byte 0x63 in position 40: invalid start byte
+Traceback (most recent call last):
+  File "/home/bharath/Desktop/projects/project_cn/CN-Project--Bharath.2004/server/ssl_port_status_server.py", line 349, in handle
+    result = scan_port_range(
+             ^^^^^^^^^^^^^^^^
+  File "/home/bharath/Desktop/projects/project_cn/CN-Project--Bharath.2004/server/ssl_port_status_server.py", line 215, in scan_port_range
+    future.result() for future in concurrent.futures.as_completed(futures)
+    ^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+  File "/usr/lib/python3.12/concurrent/futures/thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/bharath/Desktop/projects/project_cn/CN-Project--Bharath.2004/server/ssl_port_status_server.py", line 192, in scan_single_port
+    service = get_service_name(port)
+              ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/bharath/Desktop/projects/project_cn/CN-Project--Bharath.2004/server/ssl_port_status_server.py", line 236, in get_service_name
+    return socket.getservbyport(port, "tcp")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0x63 in position 40: invalid start byte
+2026-04-01 18:49:19 | INFO | [de19249d] disconnect client=192.168.1.40:39214
+2026-04-01 18:51:20 | INFO | [b71f2851] connect client=192.168.1.40:48724 tls=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 session_reused=False client_cert=absent
+2026-04-01 18:51:20 | INFO | [b71f2851] request client=192.168.1.40:48724 target=192.168.1.40 range=1-1024
+2026-04-01 18:51:20 | INFO | [b71f2851] response client=192.168.1.40:48724 open_ports=2 scanned=1024 duration=0.1033s
+2026-04-01 18:51:20 | INFO | [b71f2851] disconnect client=192.168.1.40:48724
+2026-04-01 19:13:35 | INFO | [c66646bb] connect client=192.168.1.40:37030 tls=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 session_reused=False client_cert=absent
+2026-04-01 19:13:35 | INFO | [c66646bb] request client=192.168.1.40:37030 target=192.168.1.40 range=1-1024
+2026-04-01 19:13:35 | INFO | [c66646bb] response client=192.168.1.40:37030 open_ports=2 scanned=1024 duration=0.1184s
+2026-04-01 19:13:35 | INFO | [c66646bb] disconnect client=192.168.1.40:37030
+2026-04-01 19:14:39 | INFO | [849db22b] connect client=192.168.1.40:53826 tls=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 session_reused=False client_cert=absent
+2026-04-01 19:14:39 | INFO | [849db22b] request client=192.168.1.40:53826 target=192.168.1.40 range=1-10000
+2026-04-01 19:14:41 | INFO | [849db22b] response client=192.168.1.40:53826 open_ports=6 scanned=10000 duration=2.0407s
+2026-04-01 19:14:41 | INFO | [849db22b] disconnect client=192.168.1.40:53826
+2026-04-01 19:27:11 | INFO | [9854752a] connect client=192.168.1.40:34286 tls=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 session_reused=False client_cert=absent
+2026-04-01 19:27:11 | INFO | [9854752a] request client=192.168.1.40:34286 target=192.168.1.40 range=1-1024
+2026-04-01 19:27:11 | INFO | [9854752a] response client=192.168.1.40:34286 open_ports=2 scanned=1024 duration=0.2191s
+2026-04-01 19:27:11 | INFO | [9854752a] disconnect client=192.168.1.40:34286
+2026-04-01 19:27:45 | INFO | [685b5f7c] connect client=192.168.1.40:42620 tls=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 session_reused=False client_cert=absent
+2026-04-01 19:27:45 | INFO | [685b5f7c] request client=192.168.1.40:42620 target=192.168.1.40 range=1-10000
+2026-04-01 19:27:48 | INFO | [685b5f7c] response client=192.168.1.40:42620 open_ports=6 scanned=10000 duration=2.6585s
+2026-04-01 19:27:48 | INFO | [685b5f7c] disconnect client=192.168.1.40:42620
+2026-04-01 19:35:48 | INFO | Received signal=2. Initiating shutdown...
+2026-04-01 19:35:48 | INFO | Server stopped.
+2026-04-01 19:35:53 | INFO | TLS certificates found: cert=/home/bharath/Desktop/projects/project_cn/CN-Project--Bharath.2004/server/certs/server-cert.pem key=/home/bharath/Desktop/projects/project_cn/CN-Project--Bharath.2004/server/certs/server-key.pem
+2026-04-01 19:35:53 | INFO | TLS Port Status Server started at 0.0.0.0:9443
+2026-04-01 19:35:53 | INFO | Connection logs file: /home/bharath/Desktop/projects/project_cn/CN-Project--Bharath.2004/server/logs/connections.log
+2026-04-01 19:35:53 | INFO | Logs UI server started at http://127.0.0.1:8080
+2026-04-01 19:36:54 | INFO | [741af702] connect client=192.168.1.40:47108 tls=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 session_reused=False client_cert=absent
+2026-04-01 19:36:54 | INFO | [741af702] request client=192.168.1.40:47108 target=192.168.1.40 range=1-1024
+2026-04-01 19:36:54 | INFO | [741af702] response client=192.168.1.40:47108 open_ports=2 scanned=1024 duration=0.2415s
+2026-04-01 19:36:54 | INFO | [741af702] disconnect client=192.168.1.40:47108
+2026-04-01 19:41:20 | INFO | [a59818a3] connect client=192.168.1.40:41006 tls=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 session_reused=False client_cert=absent
+2026-04-01 19:41:20 | INFO | [a59818a3] request client=192.168.1.40:41006 target=192.168.1.40 range=1-1024
+2026-04-01 19:41:21 | INFO | [a59818a3] response client=192.168.1.40:41006 open_ports=2 scanned=1024 duration=0.2115s
+2026-04-01 19:41:21 | INFO | [a59818a3] disconnect client=192.168.1.40:41006
+2026-04-01 19:42:08 | INFO | [c6372359] connect client=192.168.1.40:43272 tls=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 session_reused=False client_cert=absent
+2026-04-01 19:42:08 | INFO | [c6372359] request client=192.168.1.40:43272 target=192.168.1.40 range=1-10000
+2026-04-01 19:42:11 | ERROR | [c6372359] request_failed client=192.168.1.40:43272 error='utf-8' codec can't decode byte 0x0a in position 40: invalid start byte
+Traceback (most recent call last):
+  File "/home/bharath/Desktop/projects/project_cn/CN-Project--Bharath.2004/server/ssl_port_status_server.py", line 349, in handle
+    result = scan_port_range(
+             ^^^^^^^^^^^^^^^^
+  File "/home/bharath/Desktop/projects/project_cn/CN-Project--Bharath.2004/server/ssl_port_status_server.py", line 215, in scan_port_range
+    future.result() for future in concurrent.futures.as_completed(futures)
+    ^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+  File "/usr/lib/python3.12/concurrent/futures/thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/bharath/Desktop/projects/project_cn/CN-Project--Bharath.2004/server/ssl_port_status_server.py", line 192, in scan_single_port
+    service = get_service_name(port)
+              ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/bharath/Desktop/projects/project_cn/CN-Project--Bharath.2004/server/ssl_port_status_server.py", line 236, in get_service_name
+    return socket.getservbyport(port, "tcp")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0x0a in position 40: invalid start byte
+2026-04-01 19:42:11 | INFO | [c6372359] disconnect client=192.168.1.40:43272
+2026-04-01 19:42:19 | INFO | [42fe74e0] connect client=192.168.1.40:34080 tls=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 session_reused=False client_cert=absent
+2026-04-01 19:42:19 | INFO | [42fe74e0] request client=192.168.1.40:34080 target=192.168.1.40 range=1-2000
+2026-04-01 19:42:19 | INFO | [42fe74e0] response client=192.168.1.40:34080 open_ports=2 scanned=2000 duration=0.3592s
+2026-04-01 19:42:19 | INFO | [42fe74e0] disconnect client=192.168.1.40:34080
+2026-04-01 20:13:17 | INFO | [5cdae5d3] connect client=192.168.1.40:59890 tls=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 session_reused=False client_cert=absent
+2026-04-01 20:13:17 | INFO | [5cdae5d3] request client=192.168.1.40:59890 target=192.168.1.40 range=1-2000
+2026-04-01 20:13:18 | INFO | [5cdae5d3] response client=192.168.1.40:59890 open_ports=2 scanned=2000 duration=0.3433s
+2026-04-01 20:13:18 | INFO | [5cdae5d3] disconnect client=192.168.1.40:59890
